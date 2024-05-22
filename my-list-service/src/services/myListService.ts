@@ -4,13 +4,13 @@ import { TVShow } from '../models/tvShow';
 
 export class MyListService {
   async addToMyList(userId: string, contentId: string, contentType: 'Movie' | 'TVShow') {
-    // Check if the item already exists in the user's list
+   
     const existingItem = await UserList.findOne({ userId, contentId });
     if (existingItem) {
       throw new Error('Item already exists in the list');
     }
 
-    // Add the item to the user's list
+   
     const newItem = new UserList({ userId, contentId, contentType, addedAt: new Date() });
     await newItem.save();
 
@@ -18,7 +18,7 @@ export class MyListService {
   }
 
   async removeFromMyList(userId: string, contentId: string) {
-    // Remove the item from the user's list
+   
     const result = await UserList.deleteOne({ userId, contentId });
 
     if (result.deletedCount === 0) {
@@ -29,14 +29,14 @@ export class MyListService {
   }
 
   async listMyItems(userId: string, { limit = 10, offset = 0 }) {
-    // Get the user's list items
+   
     const userListItems = await UserList.find({ userId })
       .skip(offset)
       .limit(limit)
       .sort({ addedAt: -1 })
       .lean();
 
-    // Fetch additional details for each item
+   
     const itemDetails = await Promise.all(
       userListItems.map(async (item) => {
         if (item.contentType === 'Movie') {

@@ -39,13 +39,13 @@ class MyListService {
     }
     listMyItems(userId_1, _a) {
         return __awaiter(this, arguments, void 0, function* (userId, { limit = 10, offset = 0 }) {
-            // Get the user's list items
+         
             const userListItems = yield userList_1.UserList.find({ userId })
                 .skip(offset)
                 .limit(limit)
                 .sort({ addedAt: -1 })
                 .lean();
-            // Fetch additional details for each item
+           
             const itemDetails = yield Promise.all(userListItems.map((item) => __awaiter(this, void 0, void 0, function* () {
                 if (item.contentType === 'Movie') {
                     const movie = yield movie_1.Movie.findById(item.contentId);
